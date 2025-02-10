@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 pyautogui = "*"
 seleniumbase = "*"
+python3-xlib = "*"
 
 [dev-packages]
 
