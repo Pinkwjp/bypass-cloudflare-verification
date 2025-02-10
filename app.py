@@ -22,6 +22,12 @@
 # causing error: "X11 display failed! Will use regular xvfb!"
 
 
+# NOTE: on Fedora, need the followings libs for pyautogui
+# sudo dnf install scrot
+# sudo dnf install python3-tkinter
+# sudo dnf install python3-devel
+
+
 from time import sleep
 from contextlib import contextmanager
 from pathlib import Path
@@ -54,7 +60,7 @@ def click_checkbox() -> bool:
         pyautogui.click()
         pyautogui.moveTo(223, 323, 3, pyautogui.easeInQuad) # move away from the clicked object 
         pyautogui.click()
-        sleep(2)
+        # sleep(2)
         return True
     except:
         return False
@@ -90,13 +96,13 @@ def run():
         sleep(6) # wait long enough for the cloudflare checkbox to appear
         
         attempt = 0
-        while attempt < 3:
+        while attempt < 2:
             if click_checkbox():  # handle cloudflare verification
                 print('OK, cloudflare checkbox clicked.')
             else:
                 print('Ouch, not able to click checkbox.')
             attempt += 1
-            sleep(4)
+            sleep(2)
             if is_in_target_page():
                 break
 
