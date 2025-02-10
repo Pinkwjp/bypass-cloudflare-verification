@@ -24,6 +24,7 @@
 
 from time import sleep
 from contextlib import contextmanager
+from pathlib import Path
 
 import pyautogui
 from seleniumbase import Driver
@@ -46,6 +47,7 @@ def get_driver(**kwargs):
 
 def click_checkbox() -> bool:
     checkbox_image = './images/checkbox_cf.png' 
+    assert Path(checkbox_image).exists()
     try:
         checkbox_center = pyautogui.locateCenterOnScreen(checkbox_image, grayscale=True) 
         pyautogui.moveTo(checkbox_center.x, checkbox_center.y, 3, pyautogui.easeInQuad) 
@@ -60,6 +62,7 @@ def click_checkbox() -> bool:
 
 def is_in_target_page() -> bool:
     target_image = './images/gitlab_email_field.png' 
+    assert Path(target_image).exists()
 
     try:
         if pyautogui.locateCenterOnScreen(target_image, grayscale=True):
