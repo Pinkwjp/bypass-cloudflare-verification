@@ -36,8 +36,6 @@ import pyautogui
 from seleniumbase import Driver
 
 
-# TODO: verify if screen brightness and contrast setting will affect pyautogui
-# TODO: add test for pyautogui
 
 @contextmanager
 def get_driver(**kwargs):
@@ -51,39 +49,49 @@ def get_driver(**kwargs):
         print('Finished, driver quit.')
 
 
-def click_checkbox() -> bool:
-    checkbox_image = './images/checkbox_cf.png' 
+def locate_image_center_on_screen(image_file: str):
+    assert Path(image_file).exists()
+    try: 
+        center = pyautogui.locateCenterOnScreen(image_file, grayscale=True) 
+        return center
+    except:
+        return None
+
+
+def click_checkbox_on_verification_page() -> bool:
+    checkbox_image = './images/checkbox.png' 
     assert Path(checkbox_image).exists()
-    try:
-        checkbox_center = pyautogui.locateCenterOnScreen(checkbox_image, grayscale=True) 
-        pyautogui.moveTo(checkbox_center.x, checkbox_center.y, 3, pyautogui.easeInQuad) 
+    checkbox_center = locate_image_center_on_screen(checkbox_image)
+    if checkbox_center:
+        pyautogui.moveTo(checkbox_center.x, checkbox_center.y, 2, pyautogui.easeInQuad) 
         pyautogui.click()
-        pyautogui.moveTo(223, 323, 3, pyautogui.easeInQuad) # move away from the clicked object 
+        print('clicked checkbox')
+        sleep(4)  # wait for web page to response
+        pyautogui.moveTo(223, 323, 2, pyautogui.easeInQuad) # move away from the clicked object 
         pyautogui.click()
-        # sleep(2)
+        sleep(4)  # wait for web page to response
         return True
-    except:
+    else:
         return False
-    
 
-def is_in_target_page() -> bool:
-    target_image = './images/gitlab_email_field.png' 
-    assert Path(target_image).exists()
 
-    try:
-        if pyautogui.locateCenterOnScreen(target_image, grayscale=True):
-            return True
-        else:
-            return False
-    except:
-        return False
+def at_target_page() -> bool:
+    image_on_target_page = './images/email-field-dark.png' # screen partially black out by the cookies setting popup
+    assert Path(image_on_target_page).exists()
+    if locate_image_center_on_screen(image_on_target_page):
+        return True
+    return False
 
 
 def start_pyautogui():
-    """start pyautogui and enable remote window control"""
+    """start pyautogui 
+    NOTE: if remote interation is not enable yet need to mannually click on popup window to:
+        allow remote interation and 
+        share window
+    """
     print(f'cursor initial position: {pyautogui.position()}')
     new_position = (281, 295)  # just a random position to stay out of the way
-    pyautogui.moveTo(*new_position, 4, pyautogui.easeInQuad) 
+    pyautogui.moveTo(*new_position, 2, pyautogui.easeInQuad) 
     sleep(3)
 
 
@@ -93,25 +101,22 @@ def run():
         url = 'https://gitlab.com/users/sign_in'
         driver.uc_open_with_reconnect(url, 10)
         driver.maximize_window()
-        sleep(6) # wait long enough for the cloudflare checkbox to appear
-        
+        sleep(5) # wait long enough for the cloudflare checkbox to appear
         attempt = 0
-        while attempt < 2:
-            if click_checkbox():  # handle cloudflare verification
-                print('OK, cloudflare checkbox clicked.')
+        while attempt < 3:
+            if click_checkbox_on_verification_page():
+                if at_target_page():
+                    print('bypass verification, at target page!')
+                    break
             else:
-                print('Ouch, not able to click checkbox.')
+                print('failed to click checkbox.')
             attempt += 1
-            sleep(2)
-            if is_in_target_page():
-                break
 
-        if is_in_target_page():  # check if is at target home page
-            print('OK, at target page.')
-        else:
-            print('Ouch, something is wrong.')
+
 
 
 
 if __name__ == '__main__':
+    sleep(15)
     run()
+
