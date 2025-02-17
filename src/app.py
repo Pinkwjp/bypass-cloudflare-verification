@@ -21,7 +21,6 @@
 # both these context managers seem not fully compatible with Fedora, 
 # causing error: "X11 display failed! Will use regular xvfb!"
 
-
 # NOTE: on Fedora, need the followings libs for pyautogui
 # sudo dnf install scrot
 # sudo dnf install python3-tkinter
