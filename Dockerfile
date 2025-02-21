@@ -8,11 +8,11 @@ WORKDIR /app
 # Copy the requirements file and pipfile into the image
 COPY requirements.txt Pipfile Pipfile.lock /app/
 
-# Copy images(pictures used by pyautogui) into the image
-COPY ./images /app/
+# Add images(pictures used by pyautogui) folder into the image
+ADD images /app/
 
-# Copy the application code into the image
-COPY ./src /app/
+# Add the application code into the image
+ADD src /app/
 
 # Install the Python dependencies in the image
 # This is slow, about 240 seconds, mostly because of pyautogui
