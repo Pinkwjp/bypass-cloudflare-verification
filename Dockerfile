@@ -15,8 +15,8 @@ COPY ./images /app/
 COPY ./src /app/
 
 # Install the Python dependencies in the image
-# this step takes more than 240 seconds, mostly because of pyautogui
+# This is slow, about 240 seconds, mostly because of pyautogui
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Run app.py when the container launches
-CMD ["python", "./src/app.py"]
+CMD ["python", "src/app.py"]
