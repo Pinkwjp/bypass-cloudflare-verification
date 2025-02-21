@@ -11,3 +11,9 @@ COPY requirements.txt Pipfile Pipfile.lock /app/
 # Copy images(pictures) used by pyautogui into the image
 COPY ./images /app/
 
+# Install the Python dependencies in the image
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code into the image
+COPY ./src /app/
+
