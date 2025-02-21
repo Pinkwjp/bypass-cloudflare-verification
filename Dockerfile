@@ -8,7 +8,7 @@ WORKDIR /app
 # Copy the requirements file and pipfile into the image
 COPY requirements.txt Pipfile Pipfile.lock /app/
 
-# Copy images(pictures) used by pyautogui into the image
+# Copy images(pictures used by pyautogui) into the image
 COPY ./images /app/
 
 # Install the Python dependencies in the image
