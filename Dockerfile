@@ -12,6 +12,7 @@ COPY requirements.txt Pipfile Pipfile.lock /app/
 COPY ./images /app/
 
 # Install the Python dependencies in the image
+# this step takes more than 240 seconds, mostly because of pyautogui
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code into the image
