@@ -11,12 +11,12 @@ COPY requirements.txt Pipfile Pipfile.lock /app/
 # Copy images(pictures used by pyautogui) into the image
 COPY ./images /app/
 
+# Copy the application code into the image
+COPY ./src /app/
+
 # Install the Python dependencies in the image
 # this step takes more than 240 seconds, mostly because of pyautogui
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the application code into the image
-COPY ./src /app/
 
 # Run app.py when the container launches
 CMD ["python", "./src/app.py"]
