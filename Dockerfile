@@ -18,3 +18,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application code into the image
 COPY ./src /app/
 
+# Run app.py when the container launches
+CMD ["python", "./src/app.py"]
