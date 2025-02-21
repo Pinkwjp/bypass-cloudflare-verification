@@ -26,6 +26,7 @@
 # sudo dnf install python3-tkinter
 # sudo dnf install python3-devel
 
+# pipenv run pip freeze > requirements.txt  to be used in dockerfile
 
 from time import sleep
 
