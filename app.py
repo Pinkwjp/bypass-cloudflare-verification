@@ -29,6 +29,13 @@
 # use pipenv to generate requirements.txt 
 # pipenv run pip freeze > requirements.txt       
 
+
+import os
+
+os.environ['DISPLAY'] = ':0'
+
+
+
 from time import sleep
 
 from src.utils import (get_driver, start_pyautogui, 
