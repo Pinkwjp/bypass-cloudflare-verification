@@ -30,9 +30,6 @@
 # pipenv run pip freeze > requirements.txt       
 
 
-import os
-
-os.environ['DISPLAY'] = ':0'
 
 
 
