@@ -1,4 +1,4 @@
-# python -m src.app
+# python -m app
 
 # NOTE: when encounter 'Xlib.error.DisplayConnectionError'
 # in Linux terminal run: 'xhost +' 
