@@ -1,4 +1,4 @@
-# python -m app
+
 
 # NOTE: when encounter 'Xlib.error.DisplayConnectionError'
 # in Linux terminal run: 'xhost +' 
@@ -28,6 +28,7 @@
 
 # use pipenv to generate requirements.txt 
 # pipenv run pip freeze > requirements.txt       
+# pipenv requirements > requirements.txt 
 
 
 
@@ -36,7 +37,7 @@
 from time import sleep
 
 from src.utils import (get_driver, start_pyautogui, 
-                       click_checkbox_on_verification_page, at_target_page)
+                       handle_verification)
 
 
 def run():
@@ -44,21 +45,19 @@ def run():
     with get_driver(undetectable=True, incognito=True) as driver:  
         url = 'https://gitlab.com/users/sign_in'
         driver.uc_open_with_reconnect(url, 10)
+        sleep(2)
         driver.maximize_window()
         sleep(5) # wait long enough for the cloudflare checkbox to appear
-        attempt = 0
-        while attempt < 3:
-            if click_checkbox_on_verification_page():
-                if at_target_page():
-                    print('bypass verification, at target page!')
-                    break
-            else:
-                print('failed to click checkbox.')
-            attempt += 1
+        if handle_verification():
+            print('bypass cloudflare verification!')
+        else:
+            print('failed to click checkbox.')
 
 
 
 if __name__ == '__main__':
+    # python -m app
+
     # sleep(10)
     run()
 
